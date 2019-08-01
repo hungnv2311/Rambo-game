@@ -16,6 +16,7 @@ public class Renderer {
     public int currentImageIndex;
     public int frameDelay;
     public boolean isOnce;
+    public String url;
 
     public Renderer(String url, int frameDelay, boolean isOnce) {
         File source = new File(url);
@@ -33,7 +34,7 @@ public class Renderer {
     }
 
     public Renderer(String url) {
-        this(url, 8, false);
+        this(url, 1, false);
     }
 
     int count = 0;

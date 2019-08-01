@@ -17,4 +17,6 @@ public class Settings {
 
     public static int ENEMY_WIDTH = 28;
     public static int ENEMY_HEIGHT = 28;
+
+    public static int THRESHOLD = 250;
 }

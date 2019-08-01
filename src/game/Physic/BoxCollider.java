@@ -22,6 +22,11 @@ public class BoxCollider {
         this.anchor = master.anchor;
     }
 
+    public void set(int width, int height) {
+        this.width = width;
+        this.height = height;
+    }
+
     public double top() {
         return (position.y - anchor.y * height);
     }
