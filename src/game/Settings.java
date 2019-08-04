@@ -12,11 +12,11 @@ public class Settings {
     public static int PLAYER_WIDTH = 32;
     public static int PLAYER_HEIGHT = 48;
 
-    public static int PLAYER_BULLET_WIDTH = 24;
-    public static int PLAYER_BULLET_HEIGHT = 24;
+    public static int PLAYER_BULLET_WIDTH = 32;
+    public static int PLAYER_BULLET_HEIGHT = 5;
 
-    public static int ENEMY_WIDTH = 28;
-    public static int ENEMY_HEIGHT = 28;
+    public static int ENEMY_WIDTH = 40;
+    public static int ENEMY_HEIGHT = 39;
 
     public static int THRESHOLD = 250;
 }

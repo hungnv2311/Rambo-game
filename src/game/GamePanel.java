@@ -61,10 +61,6 @@ public class GamePanel extends JPanel {
         } else {
             g.setColor(Color.GREEN);
         }
-//        g.setColor(player.hp >= 3
-//                ? Color.GREEN
-//                : player.hp = 2
-//                ? Color.YELLOW : Color.RED);
 
         g.drawImage(heartImage, 550, 225, null);
         g.drawString(player.hp + "", 600, 250);

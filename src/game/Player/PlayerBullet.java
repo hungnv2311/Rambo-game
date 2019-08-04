@@ -10,12 +10,11 @@ import tklibs.SpriteUtils;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Set;
 
 public class PlayerBullet extends GameObject {
     public PlayerBullet() {
-//        image = SpriteUtils.loadImage("assets/images/player-bullets/a/1.png");
-        renderer = new Renderer("assets/images/player-bullets/a", 4, false);
-//        velocity = new Vector2D(0, -5);
+        renderer = new Renderer("assets/images/RegAttack.png", 4, false);
         velocity.set(0, -5);
         hitBox = new BoxCollider(this, Settings.PLAYER_BULLET_WIDTH,Settings.PLAYER_BULLET_HEIGHT);
     }
@@ -28,7 +27,7 @@ public class PlayerBullet extends GameObject {
     }
 
     private void deactiveIfNeeded() {
-        if(position.y < -50) {
+        if(position.x > Settings.GAME_WIDTH + 100) {
             this.deactive();
         }
     }
@@ -44,5 +43,13 @@ public class PlayerBullet extends GameObject {
             enemy.deactive();
 
         }
+    }
+
+    public void rotate(boolean is_rotate) {
+        if(is_rotate) {
+            renderer = new Renderer("assets/images/RegAttackUp.png");
+            this.hitBox = new BoxCollider(this, Settings.PLAYER_BULLET_HEIGHT, Settings.PLAYER_BULLET_WIDTH);
+        }
+
     }
 }

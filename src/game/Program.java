@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.security.Key;
 
 /**
  * Created by hungnv2311 on 27/7/2019.
@@ -59,6 +60,8 @@ public class Program {
                     case KeyEvent.VK_SPACE:
                         KeyEventPress.isFirePress = true;
                         break;
+                    case KeyEvent.VK_K:
+                        KeyEventPress.isJumpPress = true;
                 }
             }
 
@@ -79,6 +82,9 @@ public class Program {
                         break;
                     case KeyEvent.VK_SPACE:
                         KeyEventPress.isFirePress = false;
+                        break;
+                    case KeyEvent.VK_K:
+                        KeyEventPress.isJumpPress = false;
                         break;
                 }
             }
