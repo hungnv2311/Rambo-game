@@ -41,8 +41,8 @@ public class GamePanel extends JPanel {
 
     static Font font1 = new Font("Verdana", Font.PLAIN, 24);
     static Font font2 = new Font("Verdana", Font.BOLD, 24);
-    static BufferedImage enemyImage = SpriteUtils.loadImage("assets/images/enemies/level0/pink/1.png");
-    static BufferedImage heartImage = SpriteUtils.loadImage("assets/images/enemies/level0/blue/2.png");
+    static BufferedImage enemyImage = SpriteUtils.loadImage("assets/images/EnemyScientist/Scientist.png");
+    static BufferedImage heartImage = SpriteUtils.loadImage("assets/images/Player/Player/PlayerDeath1.png");
 
     private void drawMenu(Graphics g) {
         g.setColor(Color.BLACK);
@@ -59,8 +59,8 @@ public class GamePanel extends JPanel {
 
         g.setColor(Color.WHITE);
         g.setFont(font2);
-        g.drawImage(enemyImage, 50, 35, null);
-        g.drawString(Settings.score + "", 150, 35);
+        g.drawImage(enemyImage, 50, 10, null);
+        g.drawString(Settings.score + "", 100, 35);
 
         if (player.hp < 3) {
             g.setColor(Color.RED);
@@ -68,8 +68,8 @@ public class GamePanel extends JPanel {
             g.setColor(Color.GREEN);
         }
 
-        g.drawImage(heartImage, 250, 35, null);
-        g.drawString(player.hp + "", 400, 35);
+        g.drawImage(heartImage, 250, 10, null);
+        g.drawString(player.hp + "", 290, 35);
     }
 
     public void runAll() {
