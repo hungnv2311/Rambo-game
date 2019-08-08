@@ -27,6 +27,13 @@ public class BoxCollider {
         this.height = height;
     }
 
+    public BoxCollider shift(GameObject master, double dx, double dy) {
+        this.position = master.position;
+        this.position.add(dx, dy);
+        BoxCollider shiftedBoxCollider = new BoxCollider(master, width, height);
+        return shiftedBoxCollider;
+    }
+
     public double top() {
         return (position.y - anchor.y * height);
     }

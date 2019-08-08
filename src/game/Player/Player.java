@@ -1,18 +1,12 @@
 package game.Player;
 
 import game.*;
-import game.Enemy.Enemy;
 import game.Physic.BoxCollider;
 import game.Physic.NewBoxCollider;
 import game.Renderer.Renderer;
 import tklibs.Mathx;
-import tklibs.SpriteUtils;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.security.Key;
-import java.util.ArrayList;
-import java.util.Set;
 
 public class Player extends GameObject {
     public int hp;
@@ -21,8 +15,8 @@ public class Player extends GameObject {
     public boolean immune;
     public static boolean is_moving;
     public String image_path;
-    public final float gravity = 0.1f;
-    public boolean is_rotate = false;
+    public final float GRAVITY = 0.5f;
+    public int JUMPSPEED = 10;
 
     public Player() {
         this.image_path = "assets/images/Player/PlayerIdle";
@@ -50,10 +44,12 @@ public class Player extends GameObject {
     @Override
     public void run() {
         // Gravity of player
-        velocity.y += gravity;
+        velocity.y += GRAVITY;
         // Platform
         moveVertical();
-        System.out.println(this.velocity.y);
+        // Jump
+        this.jump();
+
         super.run();
         // move
         this.move();
@@ -65,8 +61,17 @@ public class Player extends GameObject {
         this.checkImmune();
     }
 
+    private void jump() {
+        if (KeyEventPress.isJumpPress) {
+            if (GameObject.findIntersects(Background2.class, this.hitBox.shift(this, 0, 0.1)) != null) {
+                velocity.y = -JUMPSPEED;
+            }
+        }
+    }
+
     private void moveVertical() {
         Vector2D newposition = this.position.clone();
+        NewBoxCollider ThisBoxCollider = new NewBoxCollider(this.position.clone(), this.anchor, player_width, player_height);
         newposition.add(0, velocity.y);
         NewBoxCollider nextBoxCollider = new NewBoxCollider(newposition, this.anchor, player_width, player_height);
 
@@ -74,10 +79,10 @@ public class Player extends GameObject {
         if(background2 != null) {
             boolean moveContinue = true;
             double shiftDistance = 0.5;
-            NewBoxCollider shiftedBoxCollider = new NewBoxCollider(this.position.clone(), this.anchor, player_width, player_height);
 
+            // Giusp player rơi mượt hơn
             while (moveContinue){
-                if (GameObject.newfindIntersects(Background2.class, shiftedBoxCollider.shift(0, shiftDistance)) != null) {
+                if (GameObject.newfindIntersects(Background2.class, ThisBoxCollider.shift(0, shiftDistance)) != null) {
                     moveContinue = false;
                 } else {
                     shiftDistance += 0.5;
