@@ -1,6 +1,7 @@
 package game.Player;
 
 import game.Enemy.Enemy;
+import game.EnemyAirShip.EnemyAirShip;
 import game.GameObject;
 import game.Physic.BoxCollider;
 import game.Renderer.Renderer;
@@ -13,10 +14,13 @@ import java.awt.image.BufferedImage;
 import java.util.Set;
 
 public class PlayerBullet extends GameObject {
+    public int damage;
+
     public PlayerBullet() {
         renderer = new Renderer("assets/images/RegAttack.png", 4, false);
         velocity.set(0, -5);
         hitBox = new BoxCollider(this, Settings.PLAYER_BULLET_WIDTH,Settings.PLAYER_BULLET_HEIGHT);
+        damage = 1;
     }
 
     @Override
@@ -37,19 +41,10 @@ public class PlayerBullet extends GameObject {
         if (enemy != null) {
             this.deactive();
 //            enemy.takeDamage(damge);
+            enemy.deactive();
             if(!enemy.active) {
                 Settings.score++;
             }
-            enemy.deactive();
-
         }
-    }
-
-    public void rotate(boolean is_rotate) {
-        if(is_rotate) {
-            renderer = new Renderer("assets/images/RegAttackUp.png");
-            this.hitBox = new BoxCollider(this, Settings.PLAYER_BULLET_HEIGHT, Settings.PLAYER_BULLET_WIDTH);
-        }
-
     }
 }

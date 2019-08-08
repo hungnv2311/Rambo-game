@@ -2,6 +2,7 @@ package game;
 
 import game.Enemy.Enemy;
 import game.Enemy.EnemySummoner;
+import game.EnemyAirShip.EnemyAirShipSummoner;
 import game.Player.Item.ItemSummoner;
 import game.Player.Player;
 import tklibs.SpriteUtils;
@@ -21,6 +22,7 @@ public class GamePanel extends JPanel {
         background2 = new Background2();
         player = new Player();
         new EnemySummoner();
+        new EnemyAirShipSummoner();
         new ItemSummoner();
     }
 
@@ -37,7 +39,8 @@ public class GamePanel extends JPanel {
         this.drawMenu(g);
     }
 
-    static Font font = new Font("Verdana", Font.BOLD, 32);
+    static Font font1 = new Font("Verdana", Font.PLAIN, 24);
+    static Font font2 = new Font("Verdana", Font.BOLD, 24);
     static BufferedImage enemyImage = SpriteUtils.loadImage("assets/images/enemies/level0/pink/1.png");
     static BufferedImage heartImage = SpriteUtils.loadImage("assets/images/enemies/level0/blue/2.png");
 
@@ -51,12 +54,13 @@ public class GamePanel extends JPanel {
         );
 
         g.setColor(Color.RED);
-        g.drawString(fps + "", 750, 50);
+        g.setFont(font1);
+        g.drawString(fps + "", Settings.GAME_WIDTH - 100, 35);
 
         g.setColor(Color.WHITE);
-        g.setFont(font);
-        g.drawImage(enemyImage, 550, 175, null);
-        g.drawString(Settings.score + "", 600, 200);
+        g.setFont(font2);
+        g.drawImage(enemyImage, 50, 35, null);
+        g.drawString(Settings.score + "", 150, 35);
 
         if (player.hp < 3) {
             g.setColor(Color.RED);
@@ -64,8 +68,8 @@ public class GamePanel extends JPanel {
             g.setColor(Color.GREEN);
         }
 
-        g.drawImage(heartImage, 550, 225, null);
-        g.drawString(player.hp + "", 600, 250);
+        g.drawImage(heartImage, 250, 35, null);
+        g.drawString(player.hp + "", 400, 35);
     }
 
     public void runAll() {

@@ -1,8 +1,10 @@
-package game.Enemy;
+package game.EnemyAirShip;
 
+import game.Background2;
 import game.GameObject;
 import game.Physic.BoxCollider;
 import game.Player.Player;
+import game.Player.PlayerExplosion;
 import game.Renderer.Renderer;
 
 import game.Settings;
@@ -10,15 +12,14 @@ import tklibs.SpriteUtils;
 
 import javax.print.attribute.standard.RequestingUserName;
 
-public class EnemyBullet extends GameObject {
+public class EnemyAirShipBullet extends GameObject {
     public int damage;
 
-    public EnemyBullet() {
-//        image = SpriteUtils.loadImage("assets/images/enemies/bullets/blue.png");
-        renderer = new Renderer("assets/images/EnemyScientist/ScientistBullet.png");
-        velocity.set(4, 0);
-        velocity.setAngle(Math.toRadians(-180));
-        this.hitBox = new BoxCollider(this, 16, 16);
+    public EnemyAirShipBullet() {
+        renderer = new Renderer("assets/images/EnemyAirship/AirshipAttackDown.png");
+        velocity.set(0, 4);
+        velocity.setAngle(Math.toRadians(90));
+        this.hitBox = new BoxCollider(this, 14, 61);
         this.damage = 1;
     }
 
@@ -27,6 +28,16 @@ public class EnemyBullet extends GameObject {
         super.run();
         this.checkPlayer();
         this.deactiveIfNeeded();
+        this.checkBackground();
+    }
+
+    private void checkBackground() {
+        Background2 background2 = GameObject.findIntersects(Background2.class, this.hitBox);
+        if (background2 != null) {
+            this.deactive();
+            PlayerExplosion explosion = GameObject.recycle((PlayerExplosion.class));
+            explosion.position.set(position.x, position.y);
+        }
     }
 
     private void deactiveIfNeeded() {
@@ -39,7 +50,6 @@ public class EnemyBullet extends GameObject {
         Player player = GameObject.findIntersects(Player.class, this.hitBox);
         if(player != null) {
             this.deactive();
-//            player.deactive();
             player.takeDamage(this.damage);
         }
     }

@@ -1,6 +1,7 @@
 package game.Player;
 
 import game.*;
+import game.Enemy.EnemyExplosion;
 import game.Physic.BoxCollider;
 import game.Physic.NewBoxCollider;
 import game.Renderer.Renderer;
@@ -26,7 +27,7 @@ public class Player extends GameObject {
         player_width = Settings.PLAYER_WIDTH;
         player_height = Settings.PLAYER_HEIGHT;
         this.hitBox = new BoxCollider(this, player_width, player_height);
-        hp = 300;
+        hp = 100;
         immune = false;
     }
 
@@ -37,6 +38,8 @@ public class Player extends GameObject {
             if(hp <= 0 ) {
                 hp = 0;
                 this.deactive();
+                PlayerExplosion explosion = GameObject.recycle((PlayerExplosion.class));
+                explosion.position.set(position.x, position.y);
             }
         }
     }
@@ -138,7 +141,8 @@ public class Player extends GameObject {
                     bulletUp.position.set(startX - stepX * i, position.y);
                     bulletUp.velocity.setAngle(angle);
                 }
-            } else {
+            }
+            else {
                 angle = Math.toRadians(0);
                 for (int i = 0; i < numberBullets; i++) {
                     PlayerBullet bullet = GameObject.recycle(PlayerBullet.class);
@@ -224,7 +228,7 @@ public class Player extends GameObject {
             if (KeyEventPress.isFirePress) {
                 this.image_path = "assets/images/Player/PlayerShooting";
             } else {
-                this.image_path = "assets/images/Player/PlayerWalking";
+                this.image_path = "assets/images/Player/PlayerDirection/3.png";
             }
         }
         if(KeyEventPress.isRightPress) {

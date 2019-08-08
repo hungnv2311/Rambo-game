@@ -1,6 +1,7 @@
 package game.Player;
 
 import game.Enemy.Enemy;
+import game.EnemyAirShip.EnemyAirShip;
 import game.GameObject;
 import game.Physic.BoxCollider;
 import game.Renderer.Renderer;
@@ -13,16 +14,19 @@ import java.awt.image.BufferedImage;
 import java.util.Set;
 
 public class PlayerBulletUp extends GameObject {
+    public int damage;
+
     public PlayerBulletUp() {
         renderer = new Renderer("assets/images/RegAttackUp.png", 4, false);
         velocity.set(0, -5);
         hitBox = new BoxCollider(this, Settings.PLAYER_BULLET_HEIGHT, Settings.PLAYER_BULLET_WIDTH);
+        damage = 1;
     }
 
     @Override
     public void run() {
         super.run();
-        this.checkEnemy();
+        this.checkEnemyAirShip();
         this.deactiveIfNeeded();
     }
 
@@ -32,15 +36,14 @@ public class PlayerBulletUp extends GameObject {
         }
     }
 
-    private void checkEnemy() {
-        Enemy enemy = GameObject.findIntersects(Enemy.class, this.hitBox);
-        if (enemy != null) {
+    private void checkEnemyAirShip() {
+        EnemyAirShip enemyairship = GameObject.findIntersects(EnemyAirShip.class, this.hitBox);
+        if(enemyairship != null) {
             this.deactive();
-//            enemy.takeDamage(damge);
-            if(!enemy.active) {
-                Settings.score++;
+            enemyairship.takeDamage(this.damage);
+            if(!enemyairship.active) {
+                Settings.score += 10;
             }
-            enemy.deactive();
         }
     }
 }
