@@ -11,26 +11,8 @@ import java.security.Key;
  */
 public class Program {
     public static void main(String[] args) {
-//        ArrayList<game.Vector2D> listVectors = new ArrayList<>();
-//        // .add() ; .size() ; .remove() ; .get()
-//        listVectors.add(new game.Vector2D(1, 5));
-//        listVectors.add(new game.Vector2D(4, 5));
-//        listVectors.add(new game.Vector2D(10, 7));
-//        listVectors.add(new game.Vector2D(7, 9));
-//
-//        double maxSum = 0;
-//        int maxIndex = -1;
-//        for(int i =0; i < listVectors.size(); i++) {
-//            game.Vector2D vector = listVectors.get(i);
-//            double sum = (vector.x + vector.y);
-//            System.out.println(vector.x + " " + vector.y);
-//        }
-
-//        System.out.println(System.currentTimeMillis());    // moc thoi gian tu 0h00 1970 -> present tinh bang ms
-
         JFrame window = new JFrame();
         window.setTitle("Game Touhou");
-//        window.setSize(800, 638);
         window.setLocation(400, 100);
 //        window.setResizable(false);
         window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);     // Stop process when exit window

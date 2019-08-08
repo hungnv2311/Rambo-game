@@ -13,10 +13,12 @@ import java.awt.image.BufferedImage;
 public class GamePanel extends JPanel {
     Player player;
     Background background;
+    Background2 background2;
     double fps;
 
     public GamePanel(){
         background = new Background();
+        background2 = new Background2();
         player = new Player();
         new EnemySummoner();
         new ItemSummoner();
@@ -80,7 +82,6 @@ public class GamePanel extends JPanel {
                 this.runAll();       // chay logic cho game
                 lastTime = currentTime;
             }
-
         }
     }
 }

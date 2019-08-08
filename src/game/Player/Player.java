@@ -1,7 +1,9 @@
 package game.Player;
 
 import game.*;
+import game.Enemy.Enemy;
 import game.Physic.BoxCollider;
+import game.Physic.NewBoxCollider;
 import game.Renderer.Renderer;
 import tklibs.Mathx;
 import tklibs.SpriteUtils;
@@ -19,17 +21,14 @@ public class Player extends GameObject {
     public boolean immune;
     public static boolean is_moving;
     public String image_path;
-    public float gravity = 0.5f;
+    public final float gravity = 0.1f;
     public boolean is_rotate = false;
 
-    double vx = 0;
-    double vy = 0;
-    double gy = 0;
-    double speed = 0;
     public Player() {
         this.image_path = "assets/images/Player/PlayerIdle";
         renderer = new Renderer(image_path);
-        position.set(10, 450);
+        position.set(10, 0);
+        velocity.set(0,0);
         player_width = Settings.PLAYER_WIDTH;
         player_height = Settings.PLAYER_HEIGHT;
         this.hitBox = new BoxCollider(this, player_width, player_height);
@@ -50,6 +49,11 @@ public class Player extends GameObject {
 
     @Override
     public void run() {
+        // Gravity of player
+        velocity.y += gravity;
+        // Platform
+        moveVertical();
+        System.out.println(this.velocity.y);
         super.run();
         // move
         this.move();
@@ -57,33 +61,31 @@ public class Player extends GameObject {
         this.limitPosition();
         // fire
         this.fire();
-//        this.jump();
-
-//        if(KeyEventPress.isJumpPress) {
-//            gravity = 2;
-////            speed = 2;
-//        }
-//        this.jump();
 
         this.checkImmune();
     }
 
-    long PreviousTime = System.currentTimeMillis();
-    private void jump() {
+    private void moveVertical() {
+        Vector2D newposition = this.position.clone();
+        newposition.add(0, velocity.y);
+        NewBoxCollider nextBoxCollider = new NewBoxCollider(newposition, this.anchor, player_width, player_height);
 
-        vx = 0;
-        vy = 0;
-//        vx += speed;
-        vy+= gravity;
-        long CurrentTime = System.currentTimeMillis();
-        double dt = (CurrentTime - PreviousTime)/1000.;
-        System.out.println(dt);
-        System.out.println(CurrentTime - PreviousTime);
-        vy = vy + gy * dt;
-        velocity.set(vx, vy);
-//        velocity.setLength(speed);
-        if(dt >= 2) {
-            PreviousTime = System.currentTimeMillis();
+        Background2 background2 = GameObject.newfindIntersects(Background2.class, nextBoxCollider);
+        if(background2 != null) {
+            boolean moveContinue = true;
+            double shiftDistance = 0.5;
+            NewBoxCollider shiftedBoxCollider = new NewBoxCollider(this.position.clone(), this.anchor, player_width, player_height);
+
+            while (moveContinue){
+                if (GameObject.newfindIntersects(Background2.class, shiftedBoxCollider.shift(0, shiftDistance)) != null) {
+                    moveContinue = false;
+                } else {
+                    shiftDistance += 0.5;
+                    this.position.add(0, 0.5);
+                }
+            }
+            // Update velocity if needed
+            velocity.y = 0;
         }
     }
 
@@ -96,7 +98,6 @@ public class Player extends GameObject {
                 this.new_renderer();
                 super.render(g);
             }
-
         } else {
             this.new_renderer();
             super.render(g);
@@ -127,29 +128,27 @@ public class Player extends GameObject {
             // Rotate player bullet if fire up
             if(KeyEventPress.isUpPress) {
                 angle = Math.toRadians(-90);
-                is_rotate = true;
+                for (int i = 0; i < numberBullets; i++) {
+                    PlayerBulletUp bulletUp = GameObject.recycle(PlayerBulletUp.class);
+                    bulletUp.position.set(startX - stepX * i, position.y);
+                    bulletUp.velocity.setAngle(angle);
+                }
             } else {
                 angle = Math.toRadians(0);
-                is_rotate = false;
+                for (int i = 0; i < numberBullets; i++) {
+                    PlayerBullet bullet = GameObject.recycle(PlayerBullet.class);
+                    bullet.position.set(startX - stepX * i, position.y);
+                    bullet.velocity.setAngle(angle);
+                }
             }
-            for (int i = 0; i < numberBullets; i++) {
-                PlayerBullet bullet = GameObject.recycle(PlayerBullet.class);
-                bullet.position.set(startX - stepX * i, position.y);
-                bullet.velocity.setAngle(angle);
-                bullet.rotate(is_rotate);
-            }
-
             frameCount = 0;
         }
     }
 
     private void move() {
-
         double vx = 0;
-        double vy = 0;
         double speed = 5;
         int threshold = Settings.THRESHOLD;
-
 
         if(KeyEventPress.isUpPress) {
             this.player_width = Settings.PLAYER_WIDTH;
@@ -190,8 +189,8 @@ public class Player extends GameObject {
             this.player_height = Settings.PLAYER_HEIGHT;
         }
 
-        velocity.set(vx, vy);
-        velocity.setLength(speed);
+        velocity.x = vx;
+//        velocity.setLength(speed);
         this.hitBox.set(player_width, player_height);
     }
 

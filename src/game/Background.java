@@ -1,5 +1,6 @@
 package game;
 
+import game.Physic.BoxCollider;
 import game.Player.Player;
 import game.Renderer.Renderer;
 import tklibs.SpriteUtils;

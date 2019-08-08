@@ -1,6 +1,7 @@
 package game;
 
 import game.Physic.BoxCollider;
+import game.Physic.NewBoxCollider;
 import game.Player.Player;
 import game.Renderer.Renderer;
 
@@ -42,6 +43,19 @@ public class GameObject {
                 && cls.isAssignableFrom(object.getClass())
                 && object.hitBox != null
                 && object.hitBox.intersects(hitBox)) {
+                return (E) object;
+            }
+        }
+        return null;
+    }
+
+    public static <E> E newfindIntersects(Class<E> cls, NewBoxCollider nextBoxCollider) {
+        for (int i = 0; i < gameObjects.size(); i++) {
+            GameObject object = gameObjects.get(i);
+            if(object.active
+                    && cls.isAssignableFrom(object.getClass())
+                    && object.hitBox != null
+                    && nextBoxCollider.intersects(object.hitBox)) {
                 return (E) object;
             }
         }
